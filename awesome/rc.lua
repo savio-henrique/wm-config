@@ -23,6 +23,11 @@ require("awful.hotkeys_popup.keys")
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
+-- Load laptop widgets
+local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
+local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
+local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -231,7 +236,16 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
+            brightness_widget{
+                type = 'arc',
+                program = 'brightnessctl',
+                step = 5,
+            },
+            volume_widget{
+                widget_type = 'vertical_bar',
+            },
             mytextclock,
+            battery_widget(),
             s.mylayoutbox,
         },
     }
@@ -353,8 +367,19 @@ globalkeys = gears.table.join(
     -- Program Keybind
    
     awful.key({ modkey,  "Control"  }, "f", function() awful.util.spawn("firefox") end,
-              {description = "open firefox", group = "apps"})
+              {description = "open firefox", group = "apps"}),
+    
+  
+    -- Brightness controls
+    awful.key({},"XF86MonBrightnessUp", function () brightness_widget:inc() end, {description = "increase brightness", group = "custom"}),
+    awful.key({},"XF86MonBrightnessDown", function () brightness_widget:dec() end, {description = "decrease brightness", group = "custom"}),
+
+    -- Volume controls
+    awful.key({}, "XF86AudioRaiseVolume", function() volume_widget:inc(5) end),
+    awful.key({}, "XF86AudioLowerVolume", function() volume_widget:dec(5) end),
+    awful.key({}, "XF86AudioMute", function() volume_widget:toggle() end)
 )
+
 
 clientkeys = gears.table.join(
     awful.key({ modkey,           }, "f",
