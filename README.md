@@ -7,6 +7,7 @@
 * [picom-jonaburg](https://github.com/jonaburg/picom)
 * alacritty
 * neofetch
+* dmenu
 
 ## Content
 
