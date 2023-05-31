@@ -8,6 +8,9 @@
 * alacritty
 * neofetch
 * dmenu
+* light
+* pavucontrol
+* acpi
 
 ## Content
 

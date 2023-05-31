@@ -238,8 +238,10 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.systray(),
             brightness_widget{
                 type = 'arc',
-                program = 'brightnessctl',
+                program = 'light',
                 step = 5,
+                timeout = 1,
+                tooltip = true,
             },
             volume_widget{
                 widget_type = 'vertical_bar',
